@@ -27,6 +27,11 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
   const [saved, setSaved] = useState(false)
 
   useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [])
+
+  useEffect(() => {
     const t = templateStore.getById(templateId)
     if (t) dispatch({ type: 'LOAD', template: t })
   }, [templateId])
@@ -66,7 +71,7 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
   ]
 
   return (
-    <div className="flex flex-col h-screen bg-neutral-50">
+    <div className="flex flex-col h-screen overflow-hidden bg-neutral-50">
       {/* Header */}
       <header className="flex items-center gap-3 px-4 py-3 bg-neutral-0 border-b border-neutral-200 shadow-sm shrink-0">
         <button

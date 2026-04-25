@@ -79,3 +79,26 @@ i need and clickable button
 -suppport for light and dark mode save to localstorage for persistance and rember to hydratte speak to @agents/SCHEMATICS.md  for clarity and rquiments 
 -form builder  insteadf of showing rows  show the preview of the input  make sure single select and multiselect and configured directly 
 -below the input preview show conditions and rules assigned to them for simpler feedback
+
+
+
+new sessiion
+
+@agents/UI_AGENT.md  
+#dark mode  issues
+-form builder page
+--preview inputs  not adapting to dark mode 
+--field configuration not adapting 
+- -use  the mint color   header of FieldPreviewCard
+-fill page
+--header not adapting to  theme
+--form not aadapting to theme
+--back button needs a pointer cursor 
+#PDF layout
+
+improve the UI of the PDF layout  
+use the design system
+center alignt the build page  template title 
+make it mint green 
+
+responses card had to be update to support dark modde
