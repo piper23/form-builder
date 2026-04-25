@@ -40,7 +40,7 @@ export function Select({
         id={inputId}
         {...rest}
         className={[
-          'w-full rounded-lg border px-3 py-2 text-sm bg-white outline-none transition-colors cursor-pointer appearance-none',
+          'w-full rounded-lg border px-3 py-2 text-sm bg-neutral-0 outline-none transition-colors cursor-pointer appearance-none',
           error
             ? 'border-danger-500 focus:ring-2 focus:ring-danger-500/30'
             : 'border-neutral-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20',

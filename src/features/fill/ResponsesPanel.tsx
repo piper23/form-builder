@@ -34,7 +34,7 @@ export function ResponsesPanel({ responses, template, onDelete }: Props) {
         .map(r => (
           <div
             key={r.id}
-            className="flex items-center justify-between p-4 bg-white rounded-xl border border-neutral-200 shadow-sm"
+            className="flex items-center justify-between p-4 bg-neutral-0 rounded-xl border border-neutral-200 shadow-sm"
           >
             <div>
               <p className="text-sm font-medium text-neutral-800">

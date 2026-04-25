@@ -17,8 +17,8 @@ export function CalculationDisplay({ field, allValues }: Props) {
           ({field.aggregation})
         </span>
       </span>
-      <div className="flex items-center px-3 py-2 bg-mint-50 border border-mint-200 rounded-lg">
-        <span className="text-sm font-semibold text-mint-700">{formatted}</span>
+      <div className="flex items-center px-3 py-2 bg-mint-50 dark:bg-mint-900/20 border border-mint-200 dark:border-mint-800/50 rounded-lg">
+        <span className="text-sm font-semibold text-mint-700 dark:text-mint-300">{formatted}</span>
         <span className="ml-auto text-xs text-neutral-400">read-only</span>
       </div>
     </div>

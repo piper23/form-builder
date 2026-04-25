@@ -33,7 +33,7 @@ export function Input({
       )}
       <div
         className={[
-          'flex items-center rounded-lg border bg-white transition-colors',
+          'flex items-center rounded-lg border bg-neutral-0 transition-colors',
           error
             ? 'border-danger-500 focus-within:ring-2 focus-within:ring-danger-500/30'
             : 'border-neutral-300 focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/20',

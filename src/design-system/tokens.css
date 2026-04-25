@@ -84,6 +84,25 @@
   }
 }
 
+@layer utilities {
+  .scrollbar-mint {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-mint-300) var(--color-neutral-100);
+
+    &::-webkit-scrollbar { width: 6px; }
+    &::-webkit-scrollbar-track { background: var(--color-neutral-100); border-radius: 9999px; }
+    &::-webkit-scrollbar-thumb { background: var(--color-mint-300); border-radius: 9999px; }
+    &::-webkit-scrollbar-thumb:hover { background: var(--color-mint-400); }
+  }
+
+  html.dark .scrollbar-mint {
+    scrollbar-color: var(--color-mint-700) var(--color-neutral-100);
+
+    &::-webkit-scrollbar-thumb { background: var(--color-mint-700); }
+    &::-webkit-scrollbar-thumb:hover { background: var(--color-mint-600); }
+  }
+}
+
 /* ─── Dark mode: override neutral CSS variables ─────────────────────────────
    Tailwind v4 utilities reference these vars, so all bg-neutral-* / text-neutral-*
    classes automatically flip when .dark is on <html>. No per-component dark:

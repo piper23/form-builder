@@ -46,7 +46,7 @@ export function FieldPreviewCard({ field, allFields, isSelected, onSelect, onDel
       onClick={onSelect}
     >
       {/* Card toolbar */}
-      <div className="flex items-center gap-2 px-3 py-2 border-b border-neutral-100">
+      <div className="flex items-center gap-2 px-3 py-2 border-b bg-mint-50 border-mint-200 dark:bg-mint-900/20 dark:border-mint-800/50 rounded-t-xl">
         {/* Drag handle */}
         <button
           type="button"
@@ -66,7 +66,7 @@ export function FieldPreviewCard({ field, allFields, isSelected, onSelect, onDel
           </svg>
         </button>
 
-        <span className="flex-1 text-xs font-medium text-neutral-400 uppercase tracking-wide select-none">
+        <span className="flex-1 text-xs font-medium text-mint-700 dark:text-mint-400 uppercase tracking-wide select-none">
           {field.type.replace(/-/g, ' ')}
         </span>
 

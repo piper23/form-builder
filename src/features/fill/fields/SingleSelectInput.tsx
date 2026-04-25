@@ -44,7 +44,7 @@ export function SingleSelectInput({ field, value, onChange, error, isRequired, i
           onChange={e => onChange(e.target.value)}
           disabled={isDisabled}
           aria-labelledby={labelId}
-          className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 disabled:opacity-50 appearance-none"
+          className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm bg-neutral-0 text-neutral-900 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 disabled:opacity-50 appearance-none"
         >
           <option value="">Select an option…</option>
           {field.options.map(opt => (
@@ -65,7 +65,7 @@ export function SingleSelectInput({ field, value, onChange, error, isRequired, i
                 'px-4 py-2 rounded-xl text-sm font-medium border transition-all duration-150',
                 value === opt.label
                   ? 'border-brand-500 bg-brand-500 text-white shadow-sm'
-                  : 'border-neutral-300 bg-white text-neutral-700 hover:border-brand-300 hover:bg-brand-50',
+                  : 'border-neutral-200 bg-neutral-0 text-neutral-700 hover:border-brand-300 hover:bg-brand-50',
                 isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
               ].join(' ')}
             >

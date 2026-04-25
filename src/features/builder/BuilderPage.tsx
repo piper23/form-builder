@@ -84,7 +84,7 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
             value={state.template.title}
             onChange={e => dispatch({ type: 'SET_TITLE', title: e.target.value })}
             placeholder="Give your form a name to save…"
-            className="flex-1 text-base font-semibold text-neutral-900 bg-transparent outline-none placeholder:text-neutral-400 min-w-0"
+            className="flex-1 text-base font-semibold text-mint-600 dark:text-mint-400 bg-transparent outline-none placeholder:text-neutral-400 min-w-0 text-center"
             aria-label="Form title"
           />
           {isDraft && (
@@ -128,7 +128,7 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
         </aside>
 
         {/* Center: canvas */}
-        <main className="flex-1 overflow-y-auto bg-neutral-50">
+        <main className="flex-1 overflow-y-auto bg-neutral-50 scrollbar-mint">
           {/* Mobile palette */}
           <div className="md:hidden p-3 border-b border-neutral-200 bg-neutral-0">
             <div className="flex gap-2 overflow-x-auto pb-1">

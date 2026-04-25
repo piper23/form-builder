@@ -147,11 +147,11 @@ export function FillPage({ templateId, responseId: _responseId, onBack }: Props)
   return (
     <div className="min-h-screen bg-neutral-50">
       {/* Header */}
-      <header className="sticky top-0 z-30 bg-white border-b border-neutral-200">
+      <header className="sticky top-0 z-30 bg-neutral-0 border-b border-neutral-200">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
           <button
             onClick={onBack}
-            className="text-neutral-500 hover:text-neutral-800 transition-colors text-sm"
+            className="text-neutral-500 hover:text-neutral-800 transition-colors text-sm cursor-pointer"
           >
             ← Back
           </button>
@@ -202,7 +202,7 @@ export function FillPage({ templateId, responseId: _responseId, onBack }: Props)
               </div>
             )}
 
-            <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6">
+            <div className="bg-neutral-0 rounded-2xl border border-neutral-200 shadow-sm p-6">
               <FormRenderer
                 fields={template.fields}
                 values={values}
