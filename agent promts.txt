@@ -1,0 +1,28 @@
+e#1-203
+create the project requments  based on the  @requments.txt  
+
+#set up a UI Agent that will take care of  UI building 
+-this will 1st create the design system
+-the component system
+-build UI 
+-Rules
+-- clean code 
+--no stale closures
+--no components over 500KB
+#set up a schematics designer
+-localStorage interface  where the main application or anyone can use it   
+--schema should be an Array which keeps taking in templkate
+#builder
+-this agent will set up all the code 
+
+#lingustics
+when i say form | template
+im talking about the whole form 
+when i say input component im refering to the inputs 
+
+the Agent md file needs to be set up 
+and link all the other Agent files 
+update the readme.md file as well 
+on how to run the project 
+whats its built on 
+the liting
