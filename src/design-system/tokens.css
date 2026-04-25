@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Enable class-based dark mode: .dark on <html> activates dark: utilities */
+@variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* Brand — Blue #106EBE */
   --color-brand-50: #e8f3fc;
@@ -25,7 +28,7 @@
   --color-mint-800: #067560;
   --color-mint-900: #034840;
 
-  /* Neutral */
+  /* Neutral — light defaults (overridden below in dark mode) */
   --color-neutral-0: #ffffff;
   --color-neutral-50: #f9fafb;
   --color-neutral-100: #f3f4f6;
@@ -79,4 +82,22 @@
       display: block !important;
     }
   }
+}
+
+/* ─── Dark mode: override neutral CSS variables ─────────────────────────────
+   Tailwind v4 utilities reference these vars, so all bg-neutral-* / text-neutral-*
+   classes automatically flip when .dark is on <html>. No per-component dark:
+   classes needed for structural colors.                                        */
+html.dark {
+  --color-neutral-0:   #1e293b;  /* card backgrounds          */
+  --color-neutral-50:  #0f172a;  /* page background            */
+  --color-neutral-100: #1e293b;  /* subtle card / hover bg     */
+  --color-neutral-200: #334155;  /* borders                    */
+  --color-neutral-300: #475569;  /* muted borders / dividers   */
+  --color-neutral-400: #64748b;  /* placeholder / disabled     */
+  --color-neutral-500: #94a3b8;  /* secondary text             */
+  --color-neutral-600: #cbd5e1;  /* body text                  */
+  --color-neutral-700: #e2e8f0;  /* secondary headings         */
+  --color-neutral-800: #f1f5f9;  /* headings                   */
+  --color-neutral-900: #f8fafc;  /* primary text               */
 }

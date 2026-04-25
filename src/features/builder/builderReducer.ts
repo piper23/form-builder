@@ -80,7 +80,7 @@ export function builderReducer(state: BuilderState, action: BuilderAction): Buil
       return {
         ...state,
         dirty: false,
-        template: { ...state.template, updatedAt: new Date().toISOString() },
+        template: { ...state.template, isDraft: false, updatedAt: new Date().toISOString() },
       }
 
     default:
@@ -93,6 +93,7 @@ export function makeBlankTemplate(): Template {
     id: ids.template(),
     title: '',
     fields: [],
+    isDraft: true,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   }

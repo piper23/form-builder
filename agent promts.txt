@@ -25,4 +25,57 @@ and link all the other Agent files
 update the readme.md file as well 
 on how to run the project 
 whats its built on 
-the liting
+the linting
+
+
+New Session
+
+
+
+
+
+
+e#12-12
+#to design  
+-Colors: Blue (#106EBE), mint (#0FFCBE)
+-responssive : mobile tablet,desktop
+-hover animation
+-field components 
+-clean UI 
+-add emoticons to buttons when needed
+
+
+#to builder
+-clean code
+-share logic when needed
+-rehydration **Critical** must persist on restart
+-when in build form mode 
+
+#Schematics
+-cross check to insure  schemantics are followed
+-evaluate the code integrity
+-make sure no memory trashing occurs
+-no multiple renders 
+-insure  the form that need to be conditionaly rendered  criterias are met
+
+build the project
+
+--
+
+forms now need to support draft mode 
+-user clicks new form 
+-immediate draft mode
+-in the form list page we neeed to show these forms are in draft
+that can persist after restart forms cannot be saved withought a name 
+-draft form cannot be filled 
+-Calcualtion field should be conditional to number fields only 
+-input fields now need to support place holers optional
+
+#ui designer 
+i need and clickable button  
+-pointer has to be cursor 
+-i need better hover feedback like elevation aswell 
+- i need bettewrr Ui in terms of distingusing headers sidebars forms 
+-suppport for light and dark mode save to localstorage for persistance and rember to hydratte speak to @agents/SCHEMATICS.md  for clarity and rquiments 
+-form builder  insteadf of showing rows  show the preview of the input  make sure single select and multiselect and configured directly 
+-below the input preview show conditions and rules assigned to them for simpler feedback

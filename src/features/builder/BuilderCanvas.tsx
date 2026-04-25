@@ -13,11 +13,12 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import type { Field } from '@/schema'
-import { FieldCard } from './FieldCard'
+import { FieldPreviewCard } from './FieldPreviewCard'
 import { EmptyState } from '@/components/ui/EmptyState'
 
 interface Props {
   fields: Field[]
+  allFields: Field[]
   selectedFieldId: string | null
   onSelectField: (id: string) => void
   onDeleteField: (id: string) => void
@@ -26,6 +27,7 @@ interface Props {
 
 export function BuilderCanvas({
   fields,
+  allFields,
   selectedFieldId,
   onSelectField,
   onDeleteField,
@@ -56,11 +58,12 @@ export function BuilderCanvas({
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={fields.map(f => f.id)} strategy={verticalListSortingStrategy}>
-        <div className="space-y-2 p-4">
+        <div className="space-y-3 p-4 max-w-2xl mx-auto">
           {fields.map(field => (
-            <FieldCard
+            <FieldPreviewCard
               key={field.id}
               field={field}
+              allFields={allFields}
               isSelected={selectedFieldId === field.id}
               onSelect={() => onSelectField(field.id)}
               onDelete={() => onDeleteField(field.id)}

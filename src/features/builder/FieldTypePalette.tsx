@@ -25,7 +25,7 @@ interface Props {
 
 export function FieldTypePalette({ onAdd }: Props) {
   return (
-    <aside className="flex flex-col h-full overflow-y-auto bg-white border-r border-neutral-200">
+    <aside className="flex flex-col h-full overflow-y-auto bg-neutral-0 border-r border-neutral-200">
       <div className="px-4 py-3 border-b border-neutral-200">
         <h2 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
           Field Types
@@ -37,7 +37,7 @@ export function FieldTypePalette({ onAdd }: Props) {
             <button
               type="button"
               onClick={() => onAdd(item.type)}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left hover:bg-brand-50 hover:text-brand-700 transition-colors group"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left hover:bg-brand-50 hover:text-brand-700 hover:shadow-sm transition-all cursor-pointer group"
             >
               <span className="text-lg shrink-0" role="img" aria-hidden="true">
                 {item.icon}

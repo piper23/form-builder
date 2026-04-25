@@ -18,7 +18,7 @@ export function createField(type: FieldType): Field {
       return { ...base, type, placeholder: '', required: false, minLength: null, maxLength: null, rows: 3 }
 
     case 'number':
-      return { ...base, type, required: false, min: null, max: null, decimalPlaces: 0, prefix: '', suffix: '' }
+      return { ...base, type, placeholder: '', required: false, min: null, max: null, decimalPlaces: 0, prefix: '', suffix: '' }
 
     case 'date':
       return { ...base, type, required: false, prefillToday: false, minDate: null, maxDate: null }

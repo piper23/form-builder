@@ -22,6 +22,7 @@ export function NumberInput({ field, value, onChange, error, isRequired, isDisab
       disabled={isDisabled}
       prefix={field.prefix || undefined}
       suffix={field.suffix || undefined}
+      placeholder={field.placeholder || undefined}
       min={field.min ?? undefined}
       max={field.max ?? undefined}
       step={field.decimalPlaces === 0 ? 1 : Math.pow(10, -field.decimalPlaces)}

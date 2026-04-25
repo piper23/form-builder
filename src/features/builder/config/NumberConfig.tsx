@@ -27,6 +27,13 @@ export function NumberConfig({ field, allFields, onChange }: Props) {
           label="Required"
         />
 
+        <Input
+          label="Placeholder"
+          value={field.placeholder}
+          onChange={e => onChange({ ...field, placeholder: e.target.value })}
+          placeholder="e.g. 0"
+        />
+
         <div className="grid grid-cols-2 gap-3">
           <Input
             label="Min value"

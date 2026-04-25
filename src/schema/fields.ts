@@ -81,6 +81,7 @@ export interface MultiLineTextField extends BaseField {
 
 export interface NumberField extends BaseField {
   type: 'number'
+  placeholder: string
   required: boolean
   min: number | null
   max: number | null
