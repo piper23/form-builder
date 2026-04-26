@@ -113,11 +113,29 @@ The field registry follows the **open/closed principle** — adding a new type t
 
 ### Conditional logic
 
-Multiple conditions on a single field use **OR semantics** — if *any* condition is active, its effect fires.
+#### AND vs OR — decision and reasoning
 
-Conflict resolution: `hide` beats `show`; `mark-required` beats `mark-not-required`.
+**Multiple conditions on a single field use OR semantics: if *any* condition fires, its effect applies.**
 
-A hidden field is never validated as required and its value is stripped from submitted data.
+I chose OR over AND for three reasons:
+
+1. **Matches the common use-case.** The most frequent scenario is "show this field if the user answered A *or* B." AND would require the user to stack conditions on a single field to do the same thing, which is unintuitive.
+2. **Simpler mental model for builders.** Each condition row reads as an independent rule. With AND you'd need to think about the full set being simultaneously true, which is harder to reason about in a UI with no grouping/nesting controls.
+3. **AND can be approximated via field structure.** If a form truly needs AND logic, the builder can achieve it by gating a visible intermediate field on condition A and then conditioning the target field on that intermediate field.
+
+#### Conflict resolution
+
+When multiple conditions fire at the same time and their effects contradict each other, the more conservative effect wins:
+
+- `hide` beats `show` — a field with both a hide and show condition active will be hidden.
+- `mark-required` beats `mark-not-required` — required wins ties.
+
+#### Other rules
+
+- A hidden field is **never validated as required**, even if its `defaultRequired` or a `mark-required` condition says so.
+- A hidden field's **value is stripped** from submitted data and never appears in the PDF export.
+- A field **cannot target itself** in a condition (enforced in the builder UI).
+- Conditions are evaluated in a **single forward pass** (top to bottom through the field list). A field earlier in the form cannot be controlled by a field that appears later. This keeps the evaluation O(n) and avoids circular dependency issues; reordering fields in the builder is the workaround if needed.
 
 ### PDF export
 
@@ -129,7 +147,7 @@ Uses `window.print()` with a `@media print` stylesheet that hides everything exc
 
 | Decision | Choice | Reason |
 |----------|--------|--------|
-| Multiple-condition logic | OR | Covers the common use-case; simpler mental model |
+| Multiple-condition logic | OR | See "Conditional logic" section above for full reasoning |
 | Conflict resolution | `hide` > `show` | Conservative — safer to hide than show unexpectedly |
 | Template snapshot in response | Yes | PDF re-download stays correct after template edits |
 | State management | Local component state only | Builder and Fill modes don't share live state |
