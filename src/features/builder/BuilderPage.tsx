@@ -245,15 +245,18 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
 
         {/* Mobile config — slide-up when field selected */}
         {selectedField && (
-          <div className="lg:hidden fixed inset-x-0 bottom-0 z-40 bg-neutral-0 border-t border-neutral-200 max-h-[60vh] overflow-y-auto rounded-t-2xl shadow-lg">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-100">
-              <span className="text-sm font-semibold text-neutral-700">Configure field</span>
+          <div className="lg:hidden fixed inset-x-0 bottom-0 z-40 bg-neutral-0 border-t border-neutral-200 max-h-[60vh] flex flex-col rounded-t-2xl shadow-lg">
+            <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 rounded-t-2xl shrink-0" style={{ backgroundColor: '#111827' }}>
+              <div>
+                <span className="text-sm font-semibold text-white">Configure field</span>
+                <p className="text-xs text-neutral-400 mt-0.5">Adjust the selected field's settings</p>
+              </div>
               <button
                 onClick={() => dispatch({ type: 'SELECT_FIELD', id: null })}
-                className="text-neutral-400 hover:text-neutral-700 cursor-pointer"
+                className="text-neutral-400 hover:text-white cursor-pointer text-lg leading-none"
               >✕</button>
             </div>
-            <div className="p-4">
+            <div className="p-4 overflow-y-auto flex-1">
               <FieldConfigPanel
                 field={selectedField}
                 allFields={state.template.fields}
