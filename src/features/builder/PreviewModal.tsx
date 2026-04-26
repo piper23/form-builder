@@ -3,6 +3,7 @@ import type { Template, FieldValues } from '@/schema'
 import { Modal } from '@/components/ui/Modal'
 import { FormRenderer } from '@/features/fill/FormRenderer'
 import { useConditionalVisibility } from '@/features/fill/useConditionalVisibility'
+import { validateFields } from '@/features/fill/validateFields'
 
 interface Props {
   template: Template
@@ -11,16 +12,30 @@ interface Props {
 
 export function PreviewModal({ template, onClose }: Props) {
   const [values, setValues] = useState<FieldValues>({})
+  const [errors, setErrors] = useState<Record<string, string>>({})
   const [submitted, setSubmitted] = useState(false)
 
   const visibility = useConditionalVisibility(template.fields, values)
 
   function handleChange(id: string, value: FieldValues[string]) {
     setValues(prev => ({ ...prev, [id]: value }))
+    if (errors[id]) {
+      setErrors(prev => { const next = { ...prev }; delete next[id]; return next })
+    }
+  }
+
+  function handleSubmit() {
+    const newErrors = validateFields(template.fields, values, visibility)
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+    setSubmitted(true)
   }
 
   function handleReset() {
     setValues({})
+    setErrors({})
     setSubmitted(false)
   }
 
@@ -68,7 +83,7 @@ export function PreviewModal({ template, onClose }: Props) {
               <FormRenderer
                 fields={template.fields}
                 values={values}
-                errors={{}}
+                errors={errors}
                 visibility={visibility}
                 onChange={handleChange}
               />
@@ -83,7 +98,7 @@ export function PreviewModal({ template, onClose }: Props) {
                   Reset
                 </button>
                 <button
-                  onClick={() => setSubmitted(true)}
+                  onClick={handleSubmit}
                   className="px-5 py-2 text-sm font-medium bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-colors cursor-pointer"
                 >
                   Submit (Preview)
