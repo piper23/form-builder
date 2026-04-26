@@ -28,7 +28,16 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
 
   const [saved, setSaved] = useState(false)
   const [previewOpen, setPreviewOpen] = useState(false)
+  const [paletteOpen, setPaletteOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [titleGlow, setTitleGlow] = useState(!state.template.title)
   const { theme, toggleTheme } = useTheme()
+
+  useEffect(() => {
+    if (!titleGlow) return
+    const id = setTimeout(() => setTitleGlow(false), 2500)
+    return () => clearTimeout(id)
+  }, [titleGlow])
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -42,7 +51,17 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
 
   const selectedField = state.template.fields.find(f => f.id === state.selectedFieldId) ?? null
   const isDraft = !!state.template.isDraft
-  const canSave = state.template.title.trim().length > 0
+
+  const hasInputField = state.template.fields.some(
+    f => f.type !== 'section-header' && f.type !== 'calculation'
+  )
+  const hasTitle = state.template.title.trim().length > 0
+  const canSave = hasTitle && hasInputField
+  const saveBlockReason = !hasTitle
+    ? 'Add a form name before saving'
+    : !hasInputField
+    ? 'Add at least one input field before saving'
+    : undefined
 
   const handleAddField = useCallback((type: FieldType) => {
     dispatch({ type: 'ADD_FIELD', field: createField(type) })
@@ -69,42 +88,48 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
     dispatch({ type: 'UPDATE_FIELD', field: updated })
   }, [])
 
-  const FIELD_TYPES: FieldType[] = [
-    'single-line-text', 'multi-line-text', 'number', 'date',
-    'single-select', 'multi-select', 'file-upload', 'section-header', 'calculation',
-  ]
+  const handleAddFieldMobile = useCallback((type: FieldType) => {
+    dispatch({ type: 'ADD_FIELD', field: createField(type) })
+    setPaletteOpen(false)
+  }, [])
 
   return (
     <>
     <div className="flex flex-col h-screen overflow-hidden bg-neutral-50">
       {/* Header */}
-      <header className="flex items-center gap-3 px-4 py-3 bg-neutral-0 border-b border-neutral-200 shadow-sm shrink-0">
+      <header className="relative flex items-center gap-2 px-3 py-3 bg-neutral-0 border-b-2 border-brand-500 shadow-sm shrink-0">
         <button
           onClick={onBack}
-          className="text-neutral-500 hover:text-neutral-800 transition-colors text-sm flex items-center gap-1 cursor-pointer"
+          className="shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm font-medium text-neutral-500
+            hover:bg-neutral-100 hover:text-neutral-800 transition-all cursor-pointer"
         >
           ← Back
         </button>
 
-        <div className="w-px h-5 bg-neutral-200 mx-1" />
+        <div className="w-px h-5 bg-neutral-200 shrink-0" />
 
         <div className="flex-1 min-w-0 flex items-center gap-2">
-          <input
-            type="text"
-            value={state.template.title}
-            onChange={e => dispatch({ type: 'SET_TITLE', title: e.target.value })}
-            placeholder="Give your form a name to save…"
-            className="flex-1 text-base font-semibold text-mint-600 dark:text-mint-400 bg-transparent outline-none placeholder:text-neutral-400 min-w-0 text-center"
-            aria-label="Form title"
-          />
+          <div className={`flex-1 min-w-0 rounded-lg transition-all duration-300 ${titleGlow ? 'animate-title-glow' : ''}`}>
+            <input
+              type="text"
+              value={state.template.title}
+              onChange={e => { dispatch({ type: 'SET_TITLE', title: e.target.value }); setTitleGlow(false) }}
+              placeholder="Give form a name to save…"
+              className="w-full text-base font-semibold text-brand-600 dark:text-mint-400 bg-transparent outline-none
+                placeholder:text-neutral-400 min-w-0 text-center
+                border-b-2 border-transparent focus:border-mint-400 transition-colors pb-0.5"
+              aria-label="Form title"
+            />
+          </div>
           {isDraft && (
-            <span className="shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-500 border border-neutral-200">
+            <span className="shrink-0 hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-500 border border-neutral-200">
               Draft
             </span>
           )}
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        {/* Desktop action buttons */}
+        <div className="hidden sm:flex items-center gap-2 shrink-0">
           <button
             onClick={toggleTheme}
             className="p-2 rounded-lg text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800 transition-all cursor-pointer"
@@ -118,11 +143,10 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
             size="sm"
             onClick={handleSave}
             disabled={!canSave}
-            title={!canSave ? 'Add a name before saving' : undefined}
+            title={saveBlockReason}
           >
             {saved ? '✅ Saved' : '💾 Save'}
           </Button>
-
           <Button
             variant="mint"
             size="sm"
@@ -136,6 +160,59 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
             📝 New Response
           </Button>
         </div>
+
+        {/* Mobile ⋮ menu button */}
+        <div className="sm:hidden shrink-0 relative">
+          <button
+            onClick={() => setMobileMenuOpen(o => !o)}
+            className="p-2 rounded-lg text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800 transition-all cursor-pointer text-lg leading-none"
+            aria-label="More options"
+          >
+            ⋮
+          </button>
+
+          {mobileMenuOpen && (
+            <>
+              <div
+                className="fixed inset-0 z-40"
+                onClick={() => setMobileMenuOpen(false)}
+              />
+              <div className="absolute right-0 top-full mt-1 z-50 w-52 bg-neutral-0 rounded-xl shadow-lg border border-neutral-200 overflow-hidden">
+                {isDraft && (
+                  <div className="px-4 py-2 border-b border-neutral-100">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-500 border border-neutral-200">
+                      Draft
+                    </span>
+                  </div>
+                )}
+                <button
+                  onClick={() => { toggleTheme(); setMobileMenuOpen(false) }}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors cursor-pointer"
+                >
+                  <span>{theme === 'dark' ? '☀️' : '🌙'}</span>
+                  {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+                </button>
+                <button
+                  onClick={() => { handleSave(); setMobileMenuOpen(false) }}
+                  disabled={!canSave}
+                  title={saveBlockReason}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <span>{saved ? '✅' : '💾'}</span>
+                  {saved ? 'Saved!' : 'Save form'}
+                </button>
+                <button
+                  onClick={() => { handleSave(); onFill(state.template); setMobileMenuOpen(false) }}
+                  disabled={isDraft}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed border-t border-neutral-100"
+                >
+                  <span>📝</span>
+                  New Response
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </header>
 
       {/* 3-column layout */}
@@ -147,22 +224,6 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
 
         {/* Center: canvas */}
         <main className="flex-1 overflow-y-auto bg-neutral-50 scrollbar-mint">
-          {/* Mobile palette */}
-          <div className="md:hidden p-3 border-b border-neutral-200 bg-neutral-0">
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {FIELD_TYPES.map(type => (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => handleAddField(type)}
-                  className="shrink-0 px-3 py-1.5 text-xs bg-neutral-0 border border-neutral-200 rounded-full hover:bg-brand-50 hover:border-brand-300 hover:text-brand-700 transition-colors whitespace-nowrap cursor-pointer"
-                >
-                  {type.replace(/-/g, ' ')}
-                </button>
-              ))}
-            </div>
-          </div>
-
           <BuilderCanvas
             fields={state.template.fields}
             allFields={state.template.fields}
@@ -200,6 +261,34 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
               />
             </div>
           </div>
+        )}
+
+        {/* Mobile FAB — opens palette drawer */}
+        <button
+          type="button"
+          onClick={() => setPaletteOpen(true)}
+          className="md:hidden fixed bottom-6 left-4 z-30 flex items-center gap-2 px-4 py-3 rounded-full
+            bg-brand-600 text-white shadow-lg hover:bg-brand-700 active:scale-95
+            transition-all duration-150 cursor-pointer text-sm font-semibold"
+          aria-label="Add field"
+        >
+          <span className="text-base leading-none">＋</span> Add Field
+        </button>
+
+        {/* Mobile palette drawer */}
+        {paletteOpen && (
+          <>
+            <div
+              className="md:hidden fixed inset-0 z-40 bg-neutral-900/40 backdrop-blur-sm"
+              onClick={() => setPaletteOpen(false)}
+            />
+            <div className="md:hidden fixed inset-x-0 bottom-0 z-50 rounded-t-2xl shadow-xl overflow-hidden max-h-[80vh] flex flex-col">
+              <FieldTypePalette
+                onAdd={handleAddFieldMobile}
+                onPreview={() => { setPaletteOpen(false); setPreviewOpen(true) }}
+              />
+            </div>
+          </>
         )}
       </div>
 

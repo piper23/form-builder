@@ -27,10 +27,12 @@ export function FieldConfigPanel({ field, allFields, onChange }: Props) {
 
   return (
     <aside className="flex flex-col h-full bg-neutral-0 border-l border-neutral-200 overflow-y-auto">
-      <div className="px-4 py-3 border-b border-neutral-200">
-        <h2 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
-          Field Config
-        </h2>
+      <div className="px-4 py-4 bg-linear-to-br from-mint-600 to-mint-700 shrink-0">
+        <div className="flex items-center gap-2">
+          <span className="text-base" role="img" aria-hidden="true">⚙️</span>
+          <h2 className="text-sm font-semibold text-neutral-900 tracking-wide">Field Config</h2>
+        </div>
+        <p className="text-xs text-mint-800 mt-0.5">Configure the selected field</p>
       </div>
       <div className="p-4 flex-1">
         {renderConfig(field, allFields, onChange)}

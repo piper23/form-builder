@@ -1,9 +1,35 @@
 import { useState } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import type { Field, FieldValues } from '@/schema'
+import type { Condition, ConditionEffect, Field, FieldValues } from '@/schema'
 import { FieldRenderer } from '@/features/fill/FieldRenderer'
 import { ConditionsSummary } from './ConditionsSummary'
+
+const EFFECT_STYLES: Record<ConditionEffect, string> = {
+  'show':            'bg-success-50 text-success-700 border-success-200',
+  'hide':            'bg-neutral-100 text-neutral-600 border-neutral-300',
+  'mark-required':   'bg-danger-50 text-danger-600 border-danger-200',
+  'mark-not-required': 'bg-neutral-100 text-neutral-500 border-neutral-200',
+}
+
+const EFFECT_LABEL: Record<ConditionEffect, string> = {
+  'show':              '↗ Show',
+  'hide':              '↘ Hide',
+  'mark-required':     '★ Required',
+  'mark-not-required': '★ Optional',
+}
+
+function ConditionBadge({ condition, allFields }: { condition: Condition; allFields: Field[] }) {
+  const trigger = allFields.find(f => f.id === condition.targetFieldId)?.label || 'field'
+  return (
+    <span
+      title={`When "${trigger}" matches → ${EFFECT_LABEL[condition.effect]}`}
+      className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold border ${EFFECT_STYLES[condition.effect]}`}
+    >
+      ⚡ {EFFECT_LABEL[condition.effect]}
+    </span>
+  )
+}
 
 interface Props {
   field: Field
@@ -83,6 +109,26 @@ export function FieldPreviewCard({ field, allFields, isSelected, onSelect, onDel
         >
           🗑️
         </button>
+      </div>
+
+      {/* Status badge strip */}
+      <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-neutral-100 flex-wrap min-h-7.5">
+        {field.defaultRequired && (
+          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-danger-50 text-danger-600 border border-danger-200">
+            ● Required
+          </span>
+        )}
+        {!field.defaultVisible && (
+          <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-neutral-100 text-neutral-600 border border-neutral-300">
+            ◎ Hidden
+          </span>
+        )}
+        {field.conditions.map(c => (
+          <ConditionBadge key={c.id} condition={c} allFields={allFields} />
+        ))}
+        {!field.defaultRequired && field.defaultVisible && field.conditions.length === 0 && (
+          <span className="text-[10px] text-neutral-300 italic">Optional · Visible · No conditions</span>
+        )}
       </div>
 
       {/* Interactive preview — values are ephemeral and reset on blur */}
