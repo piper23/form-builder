@@ -30,7 +30,7 @@ export function createField(type: FieldType): Field {
       return { ...base, type, required: false, options: [], minSelections: null, maxSelections: null }
 
     case 'file-upload':
-      return { ...base, type, required: false, allowedTypes: '', maxFiles: null }
+      return { ...base, type, required: false, allowedTypes: '', maxFiles: null, maxFileSizeMb: null }
 
     case 'section-header':
       return { ...base, type, label: 'Section', size: 'md' }

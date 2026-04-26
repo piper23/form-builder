@@ -125,6 +125,7 @@ export interface FileUploadField extends BaseField {
   required: boolean
   allowedTypes: string
   maxFiles: number | null
+  maxFileSizeMb: number | null
 }
 
 export type SectionHeaderSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'

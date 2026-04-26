@@ -94,9 +94,25 @@ function useConditionalVisibility(
 This hook is pure-computation — no side effects. It re-runs on every `values` change, which is fast because it's just array iteration.
 
 **Submission**:
-1. Validate all visible required fields — abort with inline errors if any fail.
+1. Validate all visible fields (required check + constraint check) — abort with inline errors if any fail.
 2. Strip hidden field values from the submission payload.
 3. Build `FormResponse` with snapshot and call `responseStore.save(response)`.
+
+#### Validation rules (enforced in `validateFields` in `FillPage.tsx`)
+
+Constraints are validated even when a field is not required — if a value is present it must still satisfy min/max. Only skips validation entirely if the field is hidden.
+
+| Field type | Validates |
+|---|---|
+| `single-line-text` | required, `minLength`, `maxLength` |
+| `multi-line-text` | required, `minLength`, `maxLength` |
+| `number` | required, `min`, `max` |
+| `multi-select` | required, `minSelections`, `maxSelections` |
+| `file-upload` | required (at least 1 file), `maxFileSizeMb` per file |
+| `date` | required |
+| `single-select` | required |
+
+Error messages surface inline below each field via the `error` prop on the input component.
 
 ### 4. Conditional Logic Engine (`src/lib/conditions.ts`)
 
@@ -133,6 +149,26 @@ The print layout includes:
 
 ---
 
+## Field schemas
+
+### `FileUploadField`
+
+```ts
+interface FileUploadField extends BaseField {
+  type: 'file-upload'
+  required: boolean
+  allowedTypes: string        // comma-separated extensions e.g. ".pdf,.jpg,.jpeg"
+  maxFiles: number | null
+  maxFileSizeMb: number | null  // per-file size cap in MB; validated on submit
+}
+```
+
+`allowedTypes` is passed directly to the native `<input accept>` attribute and also validated in `FileUploadInput` at selection time. `maxFileSizeMb` is only checked at submit time inside `validateFields`.
+
+Old localStorage records without `maxFileSizeMb` are safe — the validation guard is falsy for `undefined`.
+
+---
+
 ## Field default factories
 
 Every field type needs a default factory in `src/features/builder/fieldDefaults.ts`:
@@ -149,6 +185,8 @@ export function createField(type: FieldType, id: string): Field {
   switch (type) {
     case 'single-line-text': return { ...base, type, placeholder: '', required: false, ... }
     // ...
+    case 'file-upload':
+      return { ...base, type, required: false, allowedTypes: '', maxFiles: null, maxFileSizeMb: null }
   }
 }
 ```
@@ -164,3 +202,4 @@ export function createField(type: FieldType, id: string): Field {
 - Prefer `useReducer` for builder state to avoid batching issues.
 - IDs generated with `nanoid` (prefixed).
 - All localStorage access via store modules only.
+- Validation lives in `validateFields` inside `FillPage.tsx` — not inside individual input components.

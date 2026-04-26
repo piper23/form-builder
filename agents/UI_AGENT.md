@@ -98,6 +98,30 @@ The `SectionHeaderField` maps its `size` config to heading levels:
 
 ---
 
+## UI Patterns
+
+### Grouped toggle chip selectors
+
+Used in `FileUploadConfig.tsx` for the "Allowed types" preset picker. Pattern: one parent button per category, sub-buttons for individual values within that category.
+
+**Parent button states:**
+- All sub-types selected → solid brand background (`bg-brand-500 text-white`)
+- Some sub-types selected → light brand tint (`bg-brand-50 border-brand-300 text-brand-700`) + `–` indicator
+- None selected → neutral (`bg-neutral-0 border-neutral-200 text-neutral-600`)
+
+**Sub-button states:**
+- Active → `bg-brand-50 border-brand-300 text-brand-700`
+- Inactive → `bg-neutral-50 border-neutral-200 text-neutral-500`
+
+**Parent toggle behaviour:** if all selected → deselect all; if some or none → select all.  
+**Sub-button toggle behaviour:** toggles only that individual item's extensions.
+
+Values are stored as a comma-separated string (e.g. `.jpg,.jpeg,.png`). Helper functions `toggleSub`, `toggleGroup`, `isSubActive`, `getGroupState` live in the same file and operate on `string[]` of extensions.
+
+Always render a raw text `<input>` below the chips so the user can still type custom types.
+
+---
+
 ## Layout Structure
 
 ```

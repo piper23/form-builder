@@ -155,3 +155,36 @@ i need like a copy URL function
 so the link along with the template ID can be shared
 
 on vercel on referesh react apop 404: NOT_FOUND Code: NOT_FOUND ID: bom1::srkpr-1777197998958-68de3a31fad0
+
+
+
+New Session  — Fill Mode Validation + File Upload Config
+
+
+in the fill section  in the fill form  when i put min max
+its not validating
+
+for sting its length
+
+for numbers
+in on number
+file its file upload size
+max
+min not applicable
+
+
+for allowed types in files  provide a set of options that can prefill
+
+
+povide single image types aswell and word  types as well allowing users like only gif
+
+make the break up like this 1 parent button
+and sub bttons if applicable
+
+
+update the @agents/BUILDER.md @agents/UI_AGENT.md
+for better future memory
+
+update @agent promts.txt   with the prompts i gave you
+
+this is for the submission
