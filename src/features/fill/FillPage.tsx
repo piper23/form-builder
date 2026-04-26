@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import type { FieldValues, FormResponse } from '@/schema'
+import type { Field, FieldValues, FormResponse } from '@/schema'
 import { templateStore } from '@/storage'
 import { useResponses } from '@/storage'
 import { useTheme } from '@/storage/useTheme'

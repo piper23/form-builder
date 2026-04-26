@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import type { Template } from '@/schema'
 import { templateStore } from '@/storage'
 import { makeBlankTemplate } from '@/features/builder/builderReducer'
 import { useTheme } from '@/storage/useTheme'
 import { TemplateList } from '@/features/templates/TemplateList'
-import { BuilderPage } from '@/features/builder/BuilderPage'
-import { FillPage } from '@/features/fill/FillPage'
+
+const BuilderPage = lazy(() => import('@/features/builder/BuilderPage').then(m => ({ default: m.BuilderPage })))
+const FillPage = lazy(() => import('@/features/fill/FillPage').then(m => ({ default: m.FillPage })))
 
 type Route =
   | { view: 'home' }
@@ -48,23 +49,27 @@ export default function App() {
 
   if (route.view === 'builder') {
     return (
-      <BuilderPage
-        templateId={route.templateId}
-        onBack={() => navigate({ view: 'home' })}
-        onFill={(t: Template) =>
-          navigate({ view: 'fill', templateId: t.id, responseId: null })
-        }
-      />
+      <Suspense>
+        <BuilderPage
+          templateId={route.templateId}
+          onBack={() => navigate({ view: 'home' })}
+          onFill={(t: Template) =>
+            navigate({ view: 'fill', templateId: t.id, responseId: null })
+          }
+        />
+      </Suspense>
     )
   }
 
   if (route.view === 'fill') {
     return (
-      <FillPage
-        templateId={route.templateId}
-        responseId={route.responseId}
-        onBack={() => navigate({ view: 'home' })}
-      />
+      <Suspense>
+        <FillPage
+          templateId={route.templateId}
+          responseId={route.responseId}
+          onBack={() => navigate({ view: 'home' })}
+        />
+      </Suspense>
     )
   }
 
