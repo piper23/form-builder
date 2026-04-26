@@ -2,7 +2,6 @@ import type { Field, Condition, ConditionOperator, ConditionEffect } from '@/sch
 import { ids } from '@/lib/ids'
 import { Button } from '@/components/ui/Button'
 import { Select } from '@/components/ui/Select'
-import { Input } from '@/components/ui/Input'
 
 interface Props {
   field: Field

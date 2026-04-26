@@ -1,3 +1,4 @@
+import type { ElementType } from 'react'
 import type { SectionHeaderField } from '@/schema'
 
 interface Props {
@@ -12,7 +13,7 @@ const SIZE_CLASSES: Record<SectionHeaderField['size'], string> = {
   xs: 'text-sm font-medium text-neutral-500',
 }
 
-const SIZE_TAG: Record<SectionHeaderField['size'], keyof JSX.IntrinsicElements> = {
+const SIZE_TAG: Record<SectionHeaderField['size'], ElementType> = {
   xl: 'h1',
   lg: 'h2',
   md: 'h3',
