@@ -7,7 +7,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 const paddingClasses = {
   none: '',
-  sm: 'p-3',
+  sm: 'p-4',
   md: 'p-5',
   lg: 'p-6',
 }
@@ -17,7 +17,7 @@ export function Card({ children, padding = 'md', className = '', ...rest }: Prop
     <div
       {...rest}
       className={[
-        'bg-neutral-0 rounded-xl border border-neutral-200 shadow-sm',
+        'bg-neutral-0 rounded-2xl border border-neutral-200/80',
         paddingClasses[padding],
         className,
       ].join(' ')}

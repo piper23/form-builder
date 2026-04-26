@@ -4,19 +4,19 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Brand — Blue #106EBE */
-  --color-brand-50: #e8f3fc;
-  --color-brand-100: #c5dff8;
-  --color-brand-200: #9fcbf4;
-  --color-brand-300: #6fb4ef;
-  --color-brand-400: #3d9ae8;
-  --color-brand-500: #106ebe;
-  --color-brand-600: #0d5da0;
-  --color-brand-700: #0a4d87;
-  --color-brand-800: #073d6e;
-  --color-brand-900: #042c54;
+  /* Brand — Apple Blue */
+  --color-brand-50: #e8f0fb;
+  --color-brand-100: #c5d9f7;
+  --color-brand-200: #95bdf2;
+  --color-brand-300: #5597eb;
+  --color-brand-400: #2272e4;
+  --color-brand-500: #0071e3;
+  --color-brand-600: #0064cc;
+  --color-brand-700: #0055b3;
+  --color-brand-800: #004799;
+  --color-brand-900: #003380;
 
-  /* Mint accent — #0FFCBE */
+  /* Mint accent — kept for compatibility */
   --color-mint-50: #edfff9;
   --color-mint-100: #ccfef4;
   --color-mint-200: #99fde9;
@@ -28,30 +28,30 @@
   --color-mint-800: #067560;
   --color-mint-900: #034840;
 
-  /* Neutral — light defaults (overridden below in dark mode) */
+  /* Neutral — Apple system grays */
   --color-neutral-0: #ffffff;
-  --color-neutral-50: #f9fafb;
-  --color-neutral-100: #f3f4f6;
-  --color-neutral-200: #e5e7eb;
-  --color-neutral-300: #d1d5db;
-  --color-neutral-400: #9ca3af;
-  --color-neutral-500: #6b7280;
-  --color-neutral-600: #4b5563;
-  --color-neutral-700: #374151;
-  --color-neutral-800: #1f2937;
-  --color-neutral-900: #111827;
+  --color-neutral-50: #f5f5f7;
+  --color-neutral-100: #f2f2f7;
+  --color-neutral-200: #e5e5ea;
+  --color-neutral-300: #d1d1d6;
+  --color-neutral-400: #aeaeb2;
+  --color-neutral-500: #8e8e93;
+  --color-neutral-600: #6e6e73;
+  --color-neutral-700: #48484a;
+  --color-neutral-800: #3a3a3c;
+  --color-neutral-900: #1d1d1f;
 
-  /* Status */
-  --color-danger-50: #fef2f2;
-  --color-danger-100: #fee2e2;
-  --color-danger-500: #ef4444;
-  --color-danger-600: #dc2626;
-  --color-success-50: #f0fdf4;
-  --color-success-500: #22c55e;
+  /* Status — Apple system colors */
+  --color-danger-50: #fff2f0;
+  --color-danger-100: #ffdeda;
+  --color-danger-500: #ff3b30;
+  --color-danger-600: #e5352b;
+  --color-success-50: #f0fff4;
+  --color-success-500: #34c759;
 
-  /* Font */
-  --font-sans: ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, monospace;
+  /* Font — Apple system font stack */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Menlo', monospace;
 }
 
 @layer base {
@@ -66,6 +66,8 @@
     color: var(--color-neutral-900);
     background-color: var(--color-neutral-50);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     color-scheme: light;
   }
 
@@ -131,22 +133,22 @@
 html.dark {
   color-scheme: dark;
 
-  --color-neutral-0:   #1e293b;  /* card backgrounds          */
-  --color-neutral-50:  #0f172a;  /* page background            */
-  --color-neutral-100: #1e293b;  /* subtle card / hover bg     */
-  --color-neutral-200: #334155;  /* borders                    */
-  --color-neutral-300: #475569;  /* muted borders / dividers   */
-  --color-neutral-400: #64748b;  /* placeholder / disabled     */
-  --color-neutral-500: #94a3b8;  /* secondary text             */
-  --color-neutral-600: #cbd5e1;  /* body text                  */
-  --color-neutral-700: #e2e8f0;  /* secondary headings         */
-  --color-neutral-800: #f1f5f9;  /* headings                   */
-  --color-neutral-900: #f8fafc;  /* primary text               */
+  --color-neutral-0:   #1c1c1e;  /* card backgrounds           */
+  --color-neutral-50:  #000000;  /* page background            */
+  --color-neutral-100: #2c2c2e;  /* subtle card / hover bg     */
+  --color-neutral-200: #3a3a3c;  /* borders                    */
+  --color-neutral-300: #48484a;  /* muted borders / dividers   */
+  --color-neutral-400: #636366;  /* placeholder / disabled     */
+  --color-neutral-500: #8e8e93;  /* secondary text             */
+  --color-neutral-600: #aeaeb2;  /* body text                  */
+  --color-neutral-700: #d1d1d6;  /* secondary headings         */
+  --color-neutral-800: #e5e5ea;  /* headings                   */
+  --color-neutral-900: #f5f5f7;  /* primary text               */
 
-  /* Accent tints: flip light backgrounds to translucent dark variants */
-  --color-brand-50:    rgba(16, 110, 190, 0.15);
-  --color-brand-100:   rgba(16, 110, 190, 0.25);
-  --color-danger-50:   rgba(239, 68, 68, 0.12);
-  --color-danger-100:  rgba(239, 68, 68, 0.20);
-  --color-success-50:  rgba(34, 197, 94, 0.12);
+  /* Accent tints */
+  --color-brand-50:    rgba(0, 113, 227, 0.15);
+  --color-brand-100:   rgba(0, 113, 227, 0.25);
+  --color-danger-50:   rgba(255, 59, 48, 0.12);
+  --color-danger-100:  rgba(255, 59, 48, 0.20);
+  --color-success-50:  rgba(52, 199, 89, 0.12);
 }

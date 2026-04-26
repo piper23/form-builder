@@ -1,4 +1,19 @@
-import type { Field, FieldValues, FileMetadata } from '@/schema'
+import type { JSX } from 'react'
+import type {
+  Field,
+  FieldType,
+  FieldValues,
+  FileMetadata,
+  SingleLineTextField,
+  MultiLineTextField,
+  NumberField,
+  DateField,
+  SingleSelectField,
+  MultiSelectField,
+  FileUploadField,
+  SectionHeaderField,
+  CalculationField,
+} from '@/schema'
 import { SingleLineTextInput } from './fields/SingleLineTextInput'
 import { MultiLineTextInput } from './fields/MultiLineTextInput'
 import { NumberInput } from './fields/NumberInput'
@@ -19,105 +34,94 @@ interface Props {
   isDisabled?: boolean
 }
 
-export function FieldRenderer({ field, allValues, value, onChange, error, isRequired, isDisabled }: Props) {
-  const str = (v: FieldValues[string]): string =>
-    v === null || v === undefined ? '' : String(v)
+const str = (v: FieldValues[string]): string =>
+  v === null || v === undefined ? '' : String(v)
 
-  const strArr = (v: FieldValues[string]): string[] =>
-    Array.isArray(v) ? (v as string[]) : []
+const strArr = (v: FieldValues[string]): string[] =>
+  Array.isArray(v) ? (v as string[]) : []
 
-  const fileMeta = (v: FieldValues[string]): FileMetadata[] =>
-    Array.isArray(v) ? (v as FileMetadata[]) : []
+const fileMeta = (v: FieldValues[string]): FileMetadata[] =>
+  Array.isArray(v) ? (v as FileMetadata[]) : []
 
-  switch (field.type) {
-    case 'single-line-text':
-      return (
-        <SingleLineTextInput
-          field={field}
-          value={str(value)}
-          onChange={v => onChange(field.id, v)}
-          error={error}
-          isRequired={isRequired}
-          isDisabled={isDisabled}
-        />
-      )
+const FIELD_RENDERERS: Record<FieldType, (props: Props) => JSX.Element | null> = {
+  'single-line-text': ({ field, value, onChange, error, isRequired, isDisabled }) => (
+    <SingleLineTextInput
+      field={field as SingleLineTextField}
+      value={str(value)}
+      onChange={v => onChange(field.id, v)}
+      error={error}
+      isRequired={isRequired}
+      isDisabled={isDisabled}
+    />
+  ),
+  'multi-line-text': ({ field, value, onChange, error, isRequired, isDisabled }) => (
+    <MultiLineTextInput
+      field={field as MultiLineTextField}
+      value={str(value)}
+      onChange={v => onChange(field.id, v)}
+      error={error}
+      isRequired={isRequired}
+      isDisabled={isDisabled}
+    />
+  ),
+  'number': ({ field, value, onChange, error, isRequired, isDisabled }) => (
+    <NumberInput
+      field={field as NumberField}
+      value={str(value)}
+      onChange={v => onChange(field.id, v === '' ? null : v)}
+      error={error}
+      isRequired={isRequired}
+      isDisabled={isDisabled}
+    />
+  ),
+  'date': ({ field, value, onChange, error, isRequired, isDisabled }) => (
+    <DateInput
+      field={field as DateField}
+      value={str(value)}
+      onChange={v => onChange(field.id, v)}
+      error={error}
+      isRequired={isRequired}
+      isDisabled={isDisabled}
+    />
+  ),
+  'single-select': ({ field, value, onChange, error, isRequired, isDisabled }) => (
+    <SingleSelectInput
+      field={field as SingleSelectField}
+      value={str(value)}
+      onChange={v => onChange(field.id, v)}
+      error={error}
+      isRequired={isRequired}
+      isDisabled={isDisabled}
+    />
+  ),
+  'multi-select': ({ field, value, onChange, error, isRequired, isDisabled }) => (
+    <MultiSelectInput
+      field={field as MultiSelectField}
+      value={strArr(value)}
+      onChange={v => onChange(field.id, v)}
+      error={error}
+      isRequired={isRequired}
+      isDisabled={isDisabled}
+    />
+  ),
+  'file-upload': ({ field, value, onChange, error, isRequired, isDisabled }) => (
+    <FileUploadInput
+      field={field as FileUploadField}
+      value={fileMeta(value)}
+      onChange={v => onChange(field.id, v)}
+      error={error}
+      isRequired={isRequired}
+      isDisabled={isDisabled}
+    />
+  ),
+  'section-header': ({ field }) => (
+    <SectionHeaderDisplay field={field as SectionHeaderField} />
+  ),
+  'calculation': ({ field, allValues }) => (
+    <CalculationDisplay field={field as CalculationField} allValues={allValues} />
+  ),
+}
 
-    case 'multi-line-text':
-      return (
-        <MultiLineTextInput
-          field={field}
-          value={str(value)}
-          onChange={v => onChange(field.id, v)}
-          error={error}
-          isRequired={isRequired}
-          isDisabled={isDisabled}
-        />
-      )
-
-    case 'number':
-      return (
-        <NumberInput
-          field={field}
-          value={str(value)}
-          onChange={v => onChange(field.id, v === '' ? null : v)}
-          error={error}
-          isRequired={isRequired}
-          isDisabled={isDisabled}
-        />
-      )
-
-    case 'date':
-      return (
-        <DateInput
-          field={field}
-          value={str(value)}
-          onChange={v => onChange(field.id, v)}
-          error={error}
-          isRequired={isRequired}
-          isDisabled={isDisabled}
-        />
-      )
-
-    case 'single-select':
-      return (
-        <SingleSelectInput
-          field={field}
-          value={str(value)}
-          onChange={v => onChange(field.id, v)}
-          error={error}
-          isRequired={isRequired}
-          isDisabled={isDisabled}
-        />
-      )
-
-    case 'multi-select':
-      return (
-        <MultiSelectInput
-          field={field}
-          value={strArr(value)}
-          onChange={v => onChange(field.id, v)}
-          error={error}
-          isRequired={isRequired}
-          isDisabled={isDisabled}
-        />
-      )
-
-    case 'file-upload':
-      return (
-        <FileUploadInput
-          field={field}
-          value={fileMeta(value)}
-          onChange={v => onChange(field.id, v)}
-          error={error}
-          isRequired={isRequired}
-          isDisabled={isDisabled}
-        />
-      )
-
-    case 'section-header':
-      return <SectionHeaderDisplay field={field} />
-
-    case 'calculation':
-      return <CalculationDisplay field={field} allValues={allValues} />
-  }
+export function FieldRenderer(props: Props) {
+  return FIELD_RENDERERS[props.field.type](props)
 }

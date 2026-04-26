@@ -18,11 +18,11 @@ export function Textarea({
   const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-')
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1.5">
       {label && (
         <label
           htmlFor={inputId}
-          className="text-xs font-medium text-neutral-700 uppercase tracking-wide"
+          className="text-sm font-medium text-neutral-700"
         >
           {label}
           {isRequired && <span className="text-danger-500 ml-0.5">*</span>}
@@ -33,10 +33,10 @@ export function Textarea({
         rows={rows}
         {...rest}
         className={[
-          'w-full rounded-lg border px-3 py-2 text-sm bg-neutral-0 outline-none resize-none transition-colors placeholder:text-neutral-400',
+          'w-full rounded-xl border px-3.5 py-2.5 text-sm bg-neutral-0 outline-none resize-none transition-all duration-150 placeholder:text-neutral-400',
           error
-            ? 'border-danger-500 focus:ring-2 focus:ring-danger-500/30'
-            : 'border-neutral-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20',
+            ? 'border-danger-500 focus:ring-3 focus:ring-danger-500/20'
+            : 'border-neutral-300 focus:border-brand-500 focus:ring-3 focus:ring-brand-500/15',
           className,
         ].join(' ')}
       />

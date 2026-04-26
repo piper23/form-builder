@@ -34,25 +34,24 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: Props) 
       aria-modal="true"
       role="dialog"
     >
-      {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-neutral-900/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-neutral-900/40 backdrop-blur-md"
         onClick={onClose}
       />
-      {/* Panel */}
       <div
         className={[
-          'relative bg-neutral-0 rounded-2xl shadow-lg w-full flex flex-col overflow-hidden',
+          'relative bg-neutral-0 rounded-3xl w-full flex flex-col overflow-hidden',
+          'shadow-[0_20px_60px_-10px_rgba(0,0,0,0.18)]',
           sizeClasses[size],
         ].join(' ')}
         style={{ maxHeight: '90vh' }}
       >
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200/80">
             <h2 className="text-base font-semibold text-neutral-900">{title}</h2>
             <button
               onClick={onClose}
-              className="text-neutral-400 hover:text-neutral-600 transition-colors text-xl leading-none"
+              className="w-7 h-7 flex items-center justify-center rounded-full bg-neutral-100 text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 transition-colors text-sm leading-none cursor-pointer"
               aria-label="Close"
             >
               ✕
