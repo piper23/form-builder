@@ -42,7 +42,7 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: Props) 
       {/* Panel */}
       <div
         className={[
-          'relative bg-white rounded-2xl shadow-lg w-full flex flex-col overflow-hidden',
+          'relative bg-neutral-0 rounded-2xl shadow-lg w-full flex flex-col overflow-hidden',
           sizeClasses[size],
         ].join(' ')}
         style={{ maxHeight: '90vh' }}

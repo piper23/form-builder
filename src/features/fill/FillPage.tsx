@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import type { Field, FieldValues, FormResponse, FileMetadata } from '@/schema'
 import { templateStore } from '@/storage'
 import { useResponses } from '@/storage'
+import { useTheme } from '@/storage/useTheme'
 import { useConditionalVisibility } from './useConditionalVisibility'
 import { FormRenderer } from './FormRenderer'
 import { ResponsesPanel } from './ResponsesPanel'
@@ -76,6 +77,7 @@ function validateFields(
 export function FillPage({ templateId, responseId: _responseId, onBack }: Props) {
   const template = useMemo(() => templateStore.getById(templateId), [templateId])
   const { responses, save: saveResponse, remove: removeResponse } = useResponses(templateId)
+  const { theme, toggleTheme } = useTheme()
   const [tab, setTab] = useState<Tab>('fill')
   const [values, setValues] = useState<FieldValues>(() =>
     template ? buildInitialValues(template.fields) : {},
@@ -159,6 +161,14 @@ export function FillPage({ templateId, responseId: _responseId, onBack }: Props)
           <h1 className="flex-1 font-semibold text-neutral-900 truncate">
             {template.title || 'Untitled Form'}
           </h1>
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800 transition-all cursor-pointer"
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          >
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
         </div>
 
         {/* Tabs */}

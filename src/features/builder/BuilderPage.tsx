@@ -1,11 +1,13 @@
 import { useReducer, useEffect, useState, useCallback } from 'react'
 import type { Template, Field, FieldType } from '@/schema'
 import { templateStore } from '@/storage'
+import { useTheme } from '@/storage/useTheme'
 import { builderReducer, makeBlankTemplate } from './builderReducer'
 import { createField } from './fieldDefaults'
 import { FieldTypePalette } from './FieldTypePalette'
 import { BuilderCanvas } from './BuilderCanvas'
 import { FieldConfigPanel } from './config/FieldConfigPanel'
+import { PreviewModal } from './PreviewModal'
 import { Button } from '@/components/ui/Button'
 
 interface Props {
@@ -25,6 +27,8 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
   })
 
   const [saved, setSaved] = useState(false)
+  const [previewOpen, setPreviewOpen] = useState(false)
+  const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -71,6 +75,7 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
   ]
 
   return (
+    <>
     <div className="flex flex-col h-screen overflow-hidden bg-neutral-50">
       {/* Header */}
       <header className="flex items-center gap-3 px-4 py-3 bg-neutral-0 border-b border-neutral-200 shadow-sm shrink-0">
@@ -100,6 +105,14 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800 transition-all cursor-pointer"
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          >
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
           <Button
             variant={state.dirty && canSave ? 'primary' : 'secondary'}
             size="sm"
@@ -129,7 +142,7 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
       <div className="flex flex-1 min-h-0">
         {/* Left: palette sidebar */}
         <aside className="hidden md:flex w-56 lg:w-64 shrink-0 flex-col bg-neutral-0 border-r border-neutral-200">
-          <FieldTypePalette onAdd={handleAddField} />
+          <FieldTypePalette onAdd={handleAddField} onPreview={() => setPreviewOpen(true)} />
         </aside>
 
         {/* Center: canvas */}
@@ -191,5 +204,13 @@ export function BuilderPage({ templateId, onBack, onFill }: Props) {
       </div>
 
     </div>
+
+    {previewOpen && (
+      <PreviewModal
+        template={state.template}
+        onClose={() => setPreviewOpen(false)}
+      />
+    )}
+    </>
   )
 }

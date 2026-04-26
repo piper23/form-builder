@@ -17,7 +17,7 @@ export function Card({ children, padding = 'md', className = '', ...rest }: Prop
     <div
       {...rest}
       className={[
-        'bg-white rounded-xl border border-neutral-200 shadow-sm',
+        'bg-neutral-0 rounded-xl border border-neutral-200 shadow-sm',
         paddingClasses[padding],
         className,
       ].join(' ')}

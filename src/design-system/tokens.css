@@ -66,6 +66,7 @@
     color: var(--color-neutral-900);
     background-color: var(--color-neutral-50);
     -webkit-font-smoothing: antialiased;
+    color-scheme: light;
   }
 
   body {
@@ -108,6 +109,8 @@
    classes automatically flip when .dark is on <html>. No per-component dark:
    classes needed for structural colors.                                        */
 html.dark {
+  color-scheme: dark;
+
   --color-neutral-0:   #1e293b;  /* card backgrounds          */
   --color-neutral-50:  #0f172a;  /* page background            */
   --color-neutral-100: #1e293b;  /* subtle card / hover bg     */
@@ -119,4 +122,11 @@ html.dark {
   --color-neutral-700: #e2e8f0;  /* secondary headings         */
   --color-neutral-800: #f1f5f9;  /* headings                   */
   --color-neutral-900: #f8fafc;  /* primary text               */
+
+  /* Accent tints: flip light backgrounds to translucent dark variants */
+  --color-brand-50:    rgba(16, 110, 190, 0.15);
+  --color-brand-100:   rgba(16, 110, 190, 0.25);
+  --color-danger-50:   rgba(239, 68, 68, 0.12);
+  --color-danger-100:  rgba(239, 68, 68, 0.20);
+  --color-success-50:  rgba(34, 197, 94, 0.12);
 }

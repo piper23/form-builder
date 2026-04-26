@@ -51,7 +51,7 @@ export function FieldCard({ field, isSelected, onSelect, onDelete }: Props) {
         'group flex items-center gap-2 px-3 py-3 rounded-xl border cursor-pointer transition-all duration-150',
         isSelected
           ? 'border-brand-500 bg-brand-50 shadow-sm'
-          : 'border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-sm',
+          : 'border-neutral-200 bg-neutral-0 hover:border-neutral-300 hover:shadow-sm',
       ].join(' ')}
       onClick={onSelect}
     >

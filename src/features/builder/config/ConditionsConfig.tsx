@@ -124,7 +124,7 @@ function ConditionRow({ cond, allFields, currentFieldId, onChange, onDelete }: C
         <select
           value={String(cond.value)}
           onChange={e => onChange({ ...cond, value: e.target.value })}
-          className="border border-neutral-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:border-brand-500 bg-white"
+          className="border border-neutral-300 rounded-md px-2 py-1 text-sm bg-neutral-0 text-neutral-900 focus:outline-none focus:border-brand-500"
         >
           <option value="">Select option…</option>
           {targetField.options.map(o => (
@@ -140,7 +140,7 @@ function ConditionRow({ cond, allFields, currentFieldId, onChange, onDelete }: C
           type="number"
           value={String(cond.value)}
           onChange={e => onChange({ ...cond, value: Number(e.target.value) })}
-          className="w-28 border border-neutral-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:border-brand-500"
+          className="w-28 border border-neutral-300 rounded-md px-2 py-1 text-sm bg-neutral-0 text-neutral-900 focus:outline-none focus:border-brand-500"
           placeholder="value"
         />
       )
@@ -152,7 +152,7 @@ function ConditionRow({ cond, allFields, currentFieldId, onChange, onDelete }: C
           type="date"
           value={String(cond.value)}
           onChange={e => onChange({ ...cond, value: e.target.value })}
-          className="border border-neutral-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:border-brand-500"
+          className="border border-neutral-300 rounded-md px-2 py-1 text-sm bg-neutral-0 text-neutral-900 focus:outline-none focus:border-brand-500"
         />
       )
     }
@@ -162,7 +162,7 @@ function ConditionRow({ cond, allFields, currentFieldId, onChange, onDelete }: C
         type="text"
         value={String(cond.value)}
         onChange={e => onChange({ ...cond, value: e.target.value })}
-        className="flex-1 border border-neutral-300 rounded-md px-2 py-1 text-sm focus:outline-none focus:border-brand-500"
+        className="flex-1 border border-neutral-300 rounded-md px-2 py-1 text-sm bg-neutral-0 text-neutral-900 focus:outline-none focus:border-brand-500"
         placeholder="value"
       />
     )

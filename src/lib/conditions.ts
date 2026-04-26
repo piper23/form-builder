@@ -70,8 +70,12 @@ function resolveField(
     }
   }
 
-  // Resolve visibility: hide wins over show
-  let isVisible = field.defaultVisible
+  // If the field has any 'show' conditions, the implied default is hidden
+  // (field only appears when a show condition fires). Otherwise use defaultVisible.
+  const hasShowConditions = field.conditions.some(c => c.effect === 'show')
+  let isVisible = hasShowConditions ? false : field.defaultVisible
+
+  // hide wins over show when both fire simultaneously
   if (activeEffects.has('hide')) {
     isVisible = false
   } else if (activeEffects.has('show')) {

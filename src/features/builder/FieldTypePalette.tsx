@@ -21,17 +21,18 @@ const PALETTE_ITEMS: PaletteItem[] = [
 
 interface Props {
   onAdd: (type: FieldType) => void
+  onPreview: () => void
 }
 
-export function FieldTypePalette({ onAdd }: Props) {
+export function FieldTypePalette({ onAdd, onPreview }: Props) {
   return (
-    <aside className="flex flex-col h-full overflow-y-auto bg-neutral-0 border-r border-neutral-200">
-      <div className="px-4 py-3 border-b border-neutral-200">
+    <aside className="flex flex-col h-full bg-neutral-0 border-r border-neutral-200">
+      <div className="px-4 py-3 border-b border-neutral-200 shrink-0">
         <h2 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
           Field Types
         </h2>
       </div>
-      <ul className="p-2 space-y-1 flex-1">
+      <ul className="p-2 space-y-1 flex-1 overflow-y-auto">
         {PALETTE_ITEMS.map(item => (
           <li key={item.type}>
             <button
@@ -54,6 +55,18 @@ export function FieldTypePalette({ onAdd }: Props) {
           </li>
         ))}
       </ul>
+
+      {/* Preview button pinned to bottom */}
+      <div className="p-3 border-t border-neutral-200 shrink-0">
+        <button
+          type="button"
+          onClick={onPreview}
+          className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium bg-brand-50 text-brand-700 dark:text-mint-500 hover:bg-brand-100 hover:shadow-sm transition-all cursor-pointer"
+        >
+          <span role="img" aria-hidden="true">👁️</span>
+          Preview Form
+        </button>
+      </div>
     </aside>
   )
 }
