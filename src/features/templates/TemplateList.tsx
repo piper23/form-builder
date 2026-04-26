@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useTemplates, responseStore } from '@/storage'
 import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/EmptyState'
@@ -12,6 +13,14 @@ interface Props {
 
 export function TemplateList({ theme, onToggleTheme, onNew, onEdit, onFill }: Props) {
   const { templates, remove } = useTemplates()
+  const [copiedId, setCopiedId] = useState<string | null>(null)
+
+  function copyFillLink(templateId: string) {
+    const url = `${window.location.origin}/fill/${templateId}`
+    navigator.clipboard.writeText(url)
+    setCopiedId(templateId)
+    setTimeout(() => setCopiedId(null), 2000)
+  }
 
   return (
     <div className="min-h-screen bg-neutral-50">
@@ -125,6 +134,14 @@ export function TemplateList({ theme, onToggleTheme, onNew, onEdit, onFill }: Pr
                                 onClick={() => onEdit(t.id)}
                               >
                                 ✏️ Edit
+                              </Button>
+                              <Button
+                                variant="secondary"
+                                size="sm"
+                                onClick={() => copyFillLink(t.id)}
+                                title={`Copy shareable link — ${window.location.origin}/fill/${t.id}`}
+                              >
+                                {copiedId === t.id ? '✅ Copied!' : '🔗 Copy link'}
                               </Button>
                             </>
                           )}

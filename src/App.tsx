@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Template } from '@/schema'
 import { templateStore } from '@/storage'
 import { makeBlankTemplate } from '@/features/builder/builderReducer'
@@ -12,23 +12,47 @@ type Route =
   | { view: 'builder'; templateId: string }
   | { view: 'fill'; templateId: string; responseId: string | null }
 
+function parseRoute(pathname: string): Route {
+  const parts = pathname.split('/').filter(Boolean)
+  if (parts[0] === 'builder' && parts[1]) return { view: 'builder', templateId: parts[1] }
+  if (parts[0] === 'fill' && parts[1]) return { view: 'fill', templateId: parts[1], responseId: null }
+  return { view: 'home' }
+}
+
+function routeToPath(route: Route): string {
+  if (route.view === 'builder') return `/builder/${route.templateId}`
+  if (route.view === 'fill') return `/fill/${route.templateId}`
+  return '/'
+}
+
 export default function App() {
-  const [route, setRoute] = useState<Route>({ view: 'home' })
+  const [route, setRoute] = useState<Route>(() => parseRoute(window.location.pathname))
   const { theme, toggleTheme } = useTheme()
+
+  useEffect(() => {
+    const onPop = () => setRoute(parseRoute(window.location.pathname))
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
+  function navigate(next: Route) {
+    window.history.pushState(null, '', routeToPath(next))
+    setRoute(next)
+  }
 
   function handleNew() {
     const draft = makeBlankTemplate()
     templateStore.save(draft)
-    setRoute({ view: 'builder', templateId: draft.id })
+    navigate({ view: 'builder', templateId: draft.id })
   }
 
   if (route.view === 'builder') {
     return (
       <BuilderPage
         templateId={route.templateId}
-        onBack={() => setRoute({ view: 'home' })}
+        onBack={() => navigate({ view: 'home' })}
         onFill={(t: Template) =>
-          setRoute({ view: 'fill', templateId: t.id, responseId: null })
+          navigate({ view: 'fill', templateId: t.id, responseId: null })
         }
       />
     )
@@ -39,7 +63,7 @@ export default function App() {
       <FillPage
         templateId={route.templateId}
         responseId={route.responseId}
-        onBack={() => setRoute({ view: 'home' })}
+        onBack={() => navigate({ view: 'home' })}
       />
     )
   }
@@ -49,8 +73,8 @@ export default function App() {
       theme={theme}
       onToggleTheme={toggleTheme}
       onNew={handleNew}
-      onEdit={(id) => setRoute({ view: 'builder', templateId: id })}
-      onFill={(id) => setRoute({ view: 'fill', templateId: id, responseId: null })}
+      onEdit={(id) => navigate({ view: 'builder', templateId: id })}
+      onFill={(id) => navigate({ view: 'fill', templateId: id, responseId: null })}
     />
   )
 }
