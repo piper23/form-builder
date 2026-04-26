@@ -102,3 +102,56 @@ center alignt the build page  template title
 make it mint green 
 
 responses card had to be update to support dark modde
+
+
+New Session 
+
+
+
+@agents/BUILDER.md @agents/UI_AGENT.md 
+
+theres a  bug when a condion is marked  as showfields based on criteria 
+
+the form preview and fill section 
+form field is not hidden by default 
+
+look and unsderstand the workings
+
+
+
+
+New session ( ive done testing on it )
+
+
+
+e:\form_builder\agent promts.txt
+@requments.txt 
+
+
+i want you to confirm wether everything has been done as per the requinment
+and if any condition is missing 
+what new have we added 
+the schem of the storage system 
+etc etc
+
+
+
+New Session   updates
+
+@agents/UI_AGENT.md  
+-on mobile view  the user cannot add the title 
+- all the buttons are clustered need you tto make like a drop down of them
+-on saving the form  should have minimum 1 inputabal field  to save
+-place holder of form title    give form name to save 
+-when the creen renderes first time i need like a glow around the filed to get the users attention to it
+
+
+
+
+i need page navigation setup so
+each page has its own navigation 
+in the list page 
+i need like a copy URL function 
+so the link along with the template ID can be shared
+
+on vercel on referesh react apop 404: NOT_FOUND Code: NOT_FOUND ID: bom1::srkpr-1777197998958-68de3a31fad0
